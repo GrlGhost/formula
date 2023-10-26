@@ -1,0 +1,108 @@
+@startuml "formula"
+interface Function{
+    +accepts(Visitor visitor): T
+}
+
+class Add implements Function{
+    -right: Function
+    -left: Function
+    +accepts(Visitor visitor): T
+}
+
+class Subtract implements Function{
+    -right: Function
+    -left: Function
+    +accepts(Visitor visitor): T
+}
+
+class Multiply implements Function{
+    -right: Function
+    -left: Function
+    +accepts(Visitor visitor): T
+}
+
+class Divide implements Function{
+    -right: Function
+    -left: Function
+    +accepts(Visitor visitor): T
+}
+
+class Power implements Function{
+    -base: Function
+    -p: Function
+    +accepts(Visitor visitor): T
+}
+
+class Root implements Function{
+    -base: Function
+    -p: Function
+    +accepts(Visitor visitor): T
+}
+
+class Module implements Function{
+    -function: Function
+    +accepts(Visitor visitor): T
+}
+
+class Number implements Function{
+    -number: T
+    +accepts(Visitor visitor): T
+}
+
+class Variable implements Function{
+    -variable: String
+    +accepts(Visitor visitor): T
+}
+
+interface Visitor{
+    +visit(Add add): T
+    +visit(Subtract subtract): Optional<T>
+    +visit(Multiply multiply): Optional<T>
+    +visit(Divide divide): Optional<T>
+    +visit(Power power): Optional<T>
+    +visit(Root root): Optional<T>
+    +visit(Module module): Optional<T>
+    +visit(Number number): Optional<T>
+    +visit(Variable variable): Optional<T>
+    +process(Function function): Optional<T>
+}
+
+class Printer implements Visitor{
+    +visit(Add add): String
+    +visit(Subtract subtract): String
+    +visit(Multiply multiply): String
+    +visit(Divide divide): String
+    +visit(Power power): String
+    +visit(Root root): String
+    +visit(Module module): String
+    +visit(Number number): String
+    +visit(Variable variable): String
+    +process(Function function): String
+}
+
+class Evaluator implements Visitor{
+    +visit(Add add): Optional<T>
+    +visit(Subtract subtract): Optional<T>
+    +visit(Multiply multiply): Optional<T>
+    +visit(Divide divide): Optional<T>
+    +visit(Power power): Optional<T>
+    +visit(Root root): Optional<T>
+    +visit(Module module): Optional<T>
+    +visit(Number number): Optional<T>
+    +visit(Variable variable): Optional<T>
+    +process(Function function): Optional<T>
+}
+
+class EvaluatorWithVariables implements Visitor{
+    +visit(Add add): Optional<T>
+    +visit(Subtract subtract): Optional<T>
+    +visit(Multiply multiply): Optional<T>
+    +visit(Divide divide): Optional<T>
+    +visit(Power power): Optional<T>
+    +visit(Root root): Optional<T>
+    +visit(Module module): Optional<T>
+    +visit(Number number): Optional<T>
+    +visit(Variable variable): Optional<T>
+    +process(Function function): Optional<T>
+}
+@enduml

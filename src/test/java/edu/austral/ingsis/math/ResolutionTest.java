@@ -13,7 +13,7 @@ public class ResolutionTest {
      */
     @Test
     public void shouldResolveSimpleFunction1() {
-        final Double result = 7d;
+        final Double result = 0d;
 
         assertThat(result, equalTo(7d));
     }
@@ -23,7 +23,7 @@ public class ResolutionTest {
      */
     @Test
     public void shouldResolveSimpleFunction2() {
-        final Double result = 6d;
+        final Double result = 0d;
 
         assertThat(result, equalTo(6d));
     }
@@ -33,7 +33,7 @@ public class ResolutionTest {
      */
     @Test
     public void shouldResolveSimpleFunction3() {
-        final Double result = 13.5;
+        final Double result = 0d;
 
         assertThat(result, equalTo(13.5d));
     }
@@ -43,7 +43,7 @@ public class ResolutionTest {
      */
     @Test
     public void shouldResolveSimpleFunction4() {
-        final Double result = 20.25;
+        final Double result = 0d;
 
         assertThat(result, equalTo(20.25d));
     }
@@ -53,7 +53,7 @@ public class ResolutionTest {
      */
     @Test
     public void shouldResolveSimpleFunction5() {
-        final Double result = 6d;
+        final Double result = 0d;
 
         assertThat(result, equalTo(6d));
     }
@@ -63,7 +63,7 @@ public class ResolutionTest {
      */
     @Test
     public void shouldResolveSimpleFunction6() {
-        final Double result = 136d;
+        final Double result = 0d;
 
         assertThat(result, equalTo(136d));
     }
@@ -73,7 +73,7 @@ public class ResolutionTest {
      */
     @Test
     public void shouldResolveSimpleFunction7() {
-        final Double result = 136d;
+        final Double result = 0d;
 
         assertThat(result, equalTo(136d));
     }
@@ -83,7 +83,7 @@ public class ResolutionTest {
      */
     @Test
     public void shouldResolveSimpleFunction8() {
-        final Double result = 0d;
+        final Double result = 1d;
 
         assertThat(result, equalTo(0d));
     }

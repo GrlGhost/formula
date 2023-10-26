@@ -13,7 +13,7 @@ public class ResolutionWithVariablesTest {
      */
     @Test
     public void shouldResolveFunction1() {
-        final Double result = 4d;
+        final Double result = 0d;
 
         assertThat(result, equalTo(4d));
     }
@@ -23,7 +23,7 @@ public class ResolutionWithVariablesTest {
      */
     @Test
     public void shouldResolveFunction2() {
-        final Double result = 3d;
+        final Double result = 0d;
 
         assertThat(result, equalTo(3d));
     }
@@ -33,7 +33,7 @@ public class ResolutionWithVariablesTest {
      */
     @Test
     public void shouldResolveFunction3() {
-        final Double result = 12d;
+        final Double result = 0d;
 
         assertThat(result, equalTo(12d));
     }
@@ -43,7 +43,7 @@ public class ResolutionWithVariablesTest {
      */
     @Test
     public void shouldResolveFunction4() {
-        final Double result = 27d;
+        final Double result = 0d;
 
         assertThat(result, equalTo(27d));
     }
@@ -53,7 +53,7 @@ public class ResolutionWithVariablesTest {
      */
     @Test
     public void shouldResolveFunction5() {
-        final Double result = 6d;
+        final Double result = 0d;
 
         assertThat(result, equalTo(6d));
     }
@@ -63,7 +63,7 @@ public class ResolutionWithVariablesTest {
      */
     @Test
     public void shouldResolveFunction6() {
-        final Double result = 0d;
+        final Double result = 1d;
 
         assertThat(result, equalTo(0d));
     }
@@ -73,7 +73,7 @@ public class ResolutionWithVariablesTest {
      */
     @Test
     public void shouldResolveFunction7() {
-        final Double result = 0d;
+        final Double result = 1d;
 
         assertThat(result, equalTo(0d));
     }
@@ -83,7 +83,7 @@ public class ResolutionWithVariablesTest {
      */
     @Test
     public void shouldResolveFunction8() {
-        final Double result = 24d;
+        final Double result = 0d;
 
         assertThat(result, equalTo(24d));
     }

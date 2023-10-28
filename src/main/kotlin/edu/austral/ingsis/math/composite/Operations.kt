@@ -2,9 +2,7 @@ package edu.austral.ingsis.math.composite
 
 
 class Add(val rightFunction: Function, val leftFunction: Function): Function {
-    override fun toString(): String {
-        TODO("Not yet implemented")
-    }
+    override fun toString(): String = "$rightFunction + $leftFunction"
 
     override fun evaluate(variableValues: Map<String, Number>): Result<Number> {
         TODO("Not yet implemented")
@@ -16,9 +14,7 @@ class Add(val rightFunction: Function, val leftFunction: Function): Function {
 }
 
 class Subtract(val rightFunction: Function, val leftFunction: Function): Function {
-    override fun toString(): String {
-        TODO("Not yet implemented")
-    }
+    override fun toString(): String = "$rightFunction - $leftFunction"
 
     override fun evaluate(variableValues: Map<String, Number>): Result<Number> {
         TODO("Not yet implemented")
@@ -30,9 +26,7 @@ class Subtract(val rightFunction: Function, val leftFunction: Function): Functio
 }
 
 class Multiply(val rightFunction: Function, val leftFunction: Function): Function {
-    override fun toString(): String {
-        TODO("Not yet implemented")
-    }
+    override fun toString(): String = "$rightFunction * $leftFunction"
 
     override fun evaluate(variableValues: Map<String, Number>): Result<Number> {
         TODO("Not yet implemented")
@@ -44,9 +38,7 @@ class Multiply(val rightFunction: Function, val leftFunction: Function): Functio
 }
 
 class Divide(val rightFunction: Function, val leftFunction: Function): Function {
-    override fun toString(): String {
-        TODO("Not yet implemented")
-    }
+    override fun toString(): String = "$rightFunction / $leftFunction"
 
     override fun evaluate(variableValues: Map<String, Number>): Result<Number> {
         TODO("Not yet implemented")
@@ -58,9 +50,7 @@ class Divide(val rightFunction: Function, val leftFunction: Function): Function 
 }
 
 class Power(val base: Function, val p: Function): Function {
-    override fun toString(): String {
-        TODO("Not yet implemented")
-    }
+    override fun toString(): String = "$base ^ $p"
 
     override fun evaluate(variableValues: Map<String, Number>): Result<Number> {
         TODO("Not yet implemented")
@@ -72,9 +62,7 @@ class Power(val base: Function, val p: Function): Function {
 }
 
 class Root(val base: Function, val p: Function): Function {
-    override fun toString(): String {
-        TODO("Not yet implemented")
-    }
+    override fun toString(): String = "$base -^ $p"
 
     override fun evaluate(variableValues: Map<String, Number>): Result<Number> {
         TODO("Not yet implemented")
@@ -86,9 +74,7 @@ class Root(val base: Function, val p: Function): Function {
 }
 
 class Module(val function: Function): Function {
-    override fun toString(): String {
-        TODO("Not yet implemented")
-    }
+    override fun toString(): String = "|$function|"
 
     override fun evaluate(variableValues: Map<String, Number>): Result<Number> {
         TODO("Not yet implemented")

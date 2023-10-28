@@ -13,7 +13,7 @@ class ResolutionTest {
     @Test
     fun shouldResolveSimpleFunction1() {
         val function = Add(Number(1.0), Number(6.0))
-        assertThat(function.evaluate(), equalTo(7.0))
+        assertThat(function.evaluate().getOrNull()!!.value, equalTo(7.0))
     }
 
     /**
@@ -22,7 +22,7 @@ class ResolutionTest {
     @Test
     fun shouldResolveSimpleFunction2() {
         val function = Divide(Number(12.0), Number(2.0))
-        assertThat(function.evaluate(), equalTo(6.0))
+        assertThat(function.evaluate().getOrNull()!!.value, equalTo(6.0))
     }
 
     /**
@@ -34,7 +34,7 @@ class ResolutionTest {
             Parenthesis(Divide(Number(9.0), Number(2.0))),
             Number(3.0)
         )
-        assertThat(function.evaluate(), equalTo(13.5))
+        assertThat(function.evaluate().getOrNull()!!.value, equalTo(13.5))
     }
 
     /**
@@ -46,7 +46,7 @@ class ResolutionTest {
             Parenthesis(Divide(Number(27.0), Number(6.0))),
             Number(2.0)
         )
-        assertThat(function.evaluate(), equalTo(20.25))
+        assertThat(function.evaluate().getOrNull()!!.value, equalTo(20.25))
     }
 
     /**
@@ -57,7 +57,7 @@ class ResolutionTest {
         val function = Power(Number(36.0),
             Parenthesis(Divide(Number(1.0), Number(2.0)))
         )
-        assertThat(function.evaluate(), equalTo(6.0))
+        assertThat(function.evaluate().getOrNull()!!.value, equalTo(6.0))
     }
 
     /**
@@ -66,7 +66,7 @@ class ResolutionTest {
     @Test
     fun shouldResolveSimpleFunction6() {
         val function = Module(Number(136.0))
-        assertThat(function.evaluate(), equalTo(136.0))
+        assertThat(function.evaluate().getOrNull()!!.value, equalTo(136.0))
     }
 
     /**
@@ -75,7 +75,7 @@ class ResolutionTest {
     @Test
     fun shouldResolveSimpleFunction7() {
         val function = Module(Number(-136.0))
-        assertThat(function.evaluate(), equalTo(136.0))
+        assertThat(function.evaluate().getOrNull()!!.value, equalTo(136.0))
     }
 
     /**
@@ -87,7 +87,7 @@ class ResolutionTest {
             Parenthesis(Subtract(Number(5.0), Number(5.0))),
             Number(8.0)
         )
-        assertThat(function.evaluate(), equalTo(0.0))
+        assertThat(function.evaluate().getOrNull()!!.value, equalTo(0.0))
     }
 }
 

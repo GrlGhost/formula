@@ -1,15 +1,8 @@
 package edu.austral.ingsis.math.composite
 
 class Parenthesis(val function: Function): Function {
-    override fun toString(): String {
-        TODO("Not yet implemented")
-    }
+    override fun toString(): String = "($function)"
+    override fun listVariables(): List<String> = function.listVariables()
+    override fun evaluate(variableValues: Map<String, Number>): Result<Number> = function.evaluate(variableValues)
 
-    override fun evaluate(variableValues: Map<String, Number>): Result<Number> {
-        TODO("Not yet implemented")
-    }
-
-    override fun listVariables(): List<String> {
-        TODO("Not yet implemented")
-    }
 }

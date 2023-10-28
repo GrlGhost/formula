@@ -13,55 +13,21 @@ import kotlin.math.pow
 class EvaluateVisitor: Visitor<Number> {
     private val addVisitor: NumberVisitor = AddNumbersVisitor()
     private val multiVisitor: NumberVisitor = MultiplyNumberVisitor()
-    override fun visit(add: Add): Result<Number> {
-        val rightResult: Result<Number> = add.rightFunction.accepts(this)
-        if (rightResult.isFailure) return rightResult
-        val leftResult: Result<Number> = add.leftFunction.accepts(this)
-        if (leftResult.isFailure) return leftResult
+    override fun visit(add: Add): Result<Number> =
+        applyOperation(addVisitor, add.rightFunction, add.leftFunction)
 
-        return addVisitor.process(rightResult.getOrNull()!!, leftResult.getOrNull()!!)
-    }
+    override fun visit(subtract: Subtract): Result<Number> =
+        applyOperationWithOperationToLeft(
+            addVisitor, subtract.rightFunction, subtract.leftFunction, ::multiplyByMinusOne
+        )
 
-    override fun visit(subtract: Subtract): Result<Number> {
-        val rightResult: Result<Number> = subtract.rightFunction.accepts(this)
-        if (rightResult.isFailure) return rightResult
-        val leftResult: Result<Number> = subtract.leftFunction.accepts(this)
-        if (leftResult.isFailure) return leftResult
+    override fun visit(multiply: Multiply): Result<Number> =
+        applyOperation(multiVisitor, multiply.rightFunction, multiply.leftFunction)
 
-        val minusLeftValue: Number = when (val leftValue: Number = leftResult.getOrNull()!!){
-            is ByteNumber -> IntNumber(-1*leftValue.value)
-            is IntNumber -> IntNumber(-1*leftValue.value)
-            is LongNumber -> LongNumber(-1*leftValue.value)
-            is DoubleNumber -> DoubleNumber(-1*leftValue.value)
-        }
-
-        return addVisitor.process(rightResult.getOrNull()!!, minusLeftValue)
-    }
-
-    override fun visit(multiply: Multiply): Result<Number> {
-        val rightResult: Result<Number> = multiply.rightFunction.accepts(this)
-        if (rightResult.isFailure) return rightResult
-        val leftResult: Result<Number> = multiply.leftFunction.accepts(this)
-        if (leftResult.isFailure) return leftResult
-
-        return multiVisitor.process(rightResult.getOrNull()!!, leftResult.getOrNull()!!)
-    }
-
-    override fun visit(divide: Divide): Result<Number> {
-        val rightResult: Result<Number> = divide.rightFunction.accepts(this)
-        if (rightResult.isFailure) return rightResult
-        val leftResult: Result<Number> = divide.leftFunction.accepts(this)
-        if (leftResult.isFailure) return leftResult
-
-        val divisionValue: Number = when (val leftValue: Number = leftResult.getOrNull()!!){
-            is ByteNumber -> DoubleNumber(1 / leftValue.value.toDouble())
-            is IntNumber -> DoubleNumber( 1 / leftValue.value.toDouble())
-            is LongNumber -> DoubleNumber(1 / leftValue.value.toDouble())
-            is DoubleNumber -> DoubleNumber(1/leftValue.value)
-        }
-
-        return multiVisitor.process(rightResult.getOrNull()!!, divisionValue)
-    }
+    override fun visit(divide: Divide): Result<Number> =
+        applyOperationWithOperationToLeft(
+            multiVisitor, divide.rightFunction, divide.leftFunction, ::invertNumber
+        )
 
     override fun visit(power: Power): Result<Number> {
         val baseResult: Result<Number> = power.base.accepts(this)
@@ -69,19 +35,9 @@ class EvaluateVisitor: Visitor<Number> {
         val pResult: Result<Number> = power.p.accepts(this)
         if (pResult.isFailure) return pResult
 
-        val base: Double = when(val baseAux = baseResult.getOrNull()!!){
-            is ByteNumber -> baseAux.value.toDouble()
-            is IntNumber -> baseAux.value.toDouble()
-            is LongNumber -> baseAux.value.toDouble()
-            is DoubleNumber -> baseAux.value
-        }
+        val base: Double = numberToDouble(baseResult.getOrNull()!!)
+        val p: Double = numberToDouble(pResult.getOrNull()!!)
 
-        val p: Double = when(val pAux = pResult.getOrNull()!!){
-            is ByteNumber -> pAux.value.toDouble()
-            is IntNumber -> pAux.value.toDouble()
-            is LongNumber -> pAux.value.toDouble()
-            is DoubleNumber -> pAux.value
-        }
         return Result.success(DoubleNumber(base.pow(p)))
     }
 
@@ -91,19 +47,9 @@ class EvaluateVisitor: Visitor<Number> {
         val pResult: Result<Number> = root.p.accepts(this)
         if (pResult.isFailure) return pResult
 
-        val base: Double = when(val baseAux = baseResult.getOrNull()!!){
-            is ByteNumber -> baseAux.value.toDouble()
-            is IntNumber -> baseAux.value.toDouble()
-            is LongNumber -> baseAux.value.toDouble()
-            is DoubleNumber -> baseAux.value
-        }
+        val base: Double = numberToDouble(baseResult.getOrNull()!!)
+        val p: Double = numberToDouble(pResult.getOrNull()!!)
 
-        val p: Double = when(val pAux = pResult.getOrNull()!!){
-            is ByteNumber -> pAux.value.toDouble()
-            is IntNumber -> pAux.value.toDouble()
-            is LongNumber -> pAux.value.toDouble()
-            is DoubleNumber -> pAux.value
-        }
         return Result.success(DoubleNumber(base.pow(-p)))
     }
 
@@ -130,4 +76,61 @@ class EvaluateVisitor: Visitor<Number> {
 
     override fun process(function: Function): Result<Number> =
         function.accepts(this)
+
+
+    private fun numberToDouble(number: Number): Double = when(number){
+            is ByteNumber -> number.value.toDouble()
+            is IntNumber -> number.value.toDouble()
+            is LongNumber -> number.value.toDouble()
+            is DoubleNumber -> number.value
+    }
+
+    private fun applyOperation(numberOperator: NumberVisitor, rFunction: Function, lFunction: Function): Result<Number>{
+        val rightResult: Result<Number> = rFunction.accepts(this)
+        if (rightResult.isFailure) return rightResult
+        val leftResult: Result<Number> = lFunction.accepts(this)
+        if (leftResult.isFailure) return leftResult
+
+        return numberOperator.process(rightResult.getOrNull()!!, leftResult.getOrNull()!!)
+    }
+
+    /**
+     * Calculates the functions if all successful results then the extraOp is applied to the left result.
+     * Then the number operator is applied to the rightResult and left value got from extraOp
+     */
+    private fun applyOperationWithOperationToLeft(
+        numberOperator: NumberVisitor, rFunction: Function, lFunction: Function, extraOp: (Number) -> Number
+    ): Result<Number> {
+        val rightResult: Result<Number> = rFunction.accepts(this)
+        if (rightResult.isFailure) return rightResult
+        val leftResult: Result<Number> = lFunction.accepts(this)
+        if (leftResult.isFailure) return leftResult
+
+        val leftValue: Number = extraOp.invoke(leftResult.getOrNull()!!)
+
+        return numberOperator.process(rightResult.getOrNull()!!, leftValue)
+    }
+
+    /**
+     * Given any type of number x the value returned is -x of th same type.
+     * There is an exception with ByteType witch will be IntNumber
+     */
+    private fun multiplyByMinusOne(number: Number): Number = when (number){
+        is ByteNumber -> IntNumber(-1*number.value)
+        is IntNumber -> IntNumber(-1*number.value)
+        is LongNumber -> LongNumber(-1*number.value)
+        is DoubleNumber -> DoubleNumber(-1*number.value)
+    }
+
+    /**
+     * Given any type of number x the value returned is 1/x as a DoubleNumber
+     */
+    private fun invertNumber(number: Number): Number = when (number){
+        is ByteNumber -> DoubleNumber(1 / number.value.toDouble())
+        is IntNumber -> DoubleNumber( 1 / number.value.toDouble())
+        is LongNumber -> DoubleNumber(1 / number.value.toDouble())
+        is DoubleNumber -> DoubleNumber(1/ number.value)
+    }
+
+
 }

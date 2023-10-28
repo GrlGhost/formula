@@ -1,0 +1,70 @@
+@startuml "composite function"
+interface Function {
+    +toString(): String
+    +evaluate(variableValues: Map<String, Number> = mapOf()): Result<Number>
+    +listVariables(): List<String>
+}
+
+class Number implements Function {
+    +value: Double
+    +toString(): String
+    +evaluate(variableValues: Map<String, Number>): Result<Number>
+    +listVariables(): List<String>
+}
+
+class Variable implements Function {
+    +name: String
+    +toString(): String
+    +evaluate(variableValues: Map<String, Number>): Result<Number>
+    +listVariables(): List<String>
+}
+
+class Parenthesis implements Function {
+    +toString(): String
+    +evaluate(variableValues: Map<String, Number>): Result<Number>
+    +listVariables(): List<String>
+}
+
+class Module implements Function {
+    +toString(): String
+    +evaluate(variableValues: Map<String, Number>): Result<Number>
+    +listVariables(): List<String>
+}
+
+class Add implements Function {
+    +toString(): String
+    +evaluate(variableValues: Map<String, Number>): Result<Number>
+    +listVariables(): List<String>
+}
+
+class Subtract implements Function {
+    +toString(): String
+    +evaluate(variableValues: Map<String, Number>): Result<Number>
+    +listVariables(): List<String>
+}
+
+class Multiply implements Function {
+    +toString(): String
+    +evaluate(variableValues: Map<String, Number>): Result<Number>
+    +listVariables(): List<String>
+}
+
+class Divide implements Function {
+    +toString(): String
+    +evaluate(variableValues: Map<String, Number>): Result<Number>
+    +listVariables(): List<String>
+}
+
+class Power implements Function {
+    +toString(): String
+    +evaluate(variableValues: Map<String, Number>): Result<Number>
+    +listVariables(): List<String>
+}
+
+class Root implements Function {
+    +toString(): String
+    +evaluate(variableValues: Map<String, Number>): Result<Number>
+    +listVariables(): List<String>
+}
+
+@enduml
